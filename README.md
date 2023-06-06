@@ -1,6 +1,6 @@
 
 Simple superheroes REST API
-- [DEMO LINK](https://seahorse-app-7wlro.ondigitalocean.app/superheroes)
+- [DEMO LINK](https://seahorse-app-7wlro.ondigitalocean.app/superhero)
 
 ## Description
 

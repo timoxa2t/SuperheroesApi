@@ -47,20 +47,11 @@ async function getDetais(id) {
 
 async function create(superhero) {
   const newSuperhero = await Superhero.create(superhero);
-  
-  // await Superpower.bulkCreate(superhero.superpowers.map(
-  //   superpower => ({
-  //     superheroId: id,
-  //     name: superpower
-  //   })
-  // ));
 
-  // await Image.bulkCreate(superhero.images.map(
-  //   image => ({
-  //     superheroId: id,
-  //     url: image
-  //   })
-  // ));
+  await Image.create({
+    superheroId: newSuperhero.id,
+    url: superhero.image
+  });
 
   return newSuperhero;
 }
@@ -91,15 +82,24 @@ async function update(id, superhero) {
         id
       }
     }
-  );
-
-  return updatedSuperhero;
+  )
+    
+  return await getDetais(id);
 }
 
 async function addImage(superheroId, url) {
   return await Image.create({
     superheroId,
     url,
+  })
+}
+
+async function removeImage(superheroId, url) {
+  return await Image.destroy({
+    where: {
+      superheroId,
+      url,
+    }
   })
 }
 
@@ -110,7 +110,14 @@ async function addSuperpower(superheroId, superpower) {
   })
 }
 
-
+async function removeSuperpower(superheroId, name) {
+  return await Superpower.destroy({
+    where: {
+      superheroId,
+      name,
+    }
+  })
+}
 
 module.exports = {
   getPage,
@@ -120,4 +127,6 @@ module.exports = {
   addImage,
   update,
   addSuperpower,
+  removeImage,
+  removeSuperpower,
 }

@@ -11,7 +11,7 @@ const Superhero = sequelize.define('Superhero', {
     allowNull: false,
   },
   origin_description: {
-    type: DataTypes.STRING,
+    type: DataTypes.TEXT,
   },
   catch_phrase: {
     type: DataTypes.STRING,

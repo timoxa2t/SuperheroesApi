@@ -2,22 +2,17 @@ const express = require('express');
 const cors = require('cors');
 const path = require("path");
 
-// const { connect } = require('./sequelize/db');
-
 const SuperheroServise = require('./sequelize/services/Superhero');
-// const { Superhero } = require('./sequelize/mdoels/Superhero');
-// const { Superpower } = require('./sequelize/mdoels/Superpower');
-// const { Image } = require('./sequelize/mdoels/Image');
 const { parseForm } = require('./utils/formServise');
+const { connect } = require('./sequelize/db');
+const { Superhero } = require('./sequelize/mdoels/Superhero');
 
-
-const app = express();
 
 // connect().then(() => {
-//   // Superhero.sync();
-//   // Superpower.sync();
-//   // Image.sync();
-// });
+//   Superhero.sync();
+// })
+
+const app = express();
 
 app.use(express.json());
 app.use(cors());
@@ -55,10 +50,16 @@ app.post('/superhero/:id/image', async (req, res)  => {
   const { id } = req.params;
 
   const superhero = await parseForm(req);
-  console.log(superhero);
 
   SuperheroServise.addImage(Number(id), superhero.image)
     .then(details => res.json(details));
+});
+
+app.delete('/superhero/:id/img/:imageUrl', async (req, res)  => {
+  const { id, imageUrl } = req.params;
+
+  SuperheroServise.removeImage(Number(id), `img/${imageUrl}`)
+    .then(() => res.sendStatus(200));
 });
 
 app.post('/superhero/:id/superpower', async (req, res)  => {
@@ -66,6 +67,13 @@ app.post('/superhero/:id/superpower', async (req, res)  => {
 
   SuperheroServise.addSuperpower(Number(id), req.body)
     .then(newSuperpower => res.json(newSuperpower));
+});
+
+app.delete('/superhero/:id/superpower/:name', async (req, res)  => {
+  const { id, name } = req.params;
+
+  SuperheroServise.removeSuperpower(Number(id), name)
+    .then(() => res.sendStatus(200));
 });
 
 app.put('/superhero/:id', (req, res)  => {

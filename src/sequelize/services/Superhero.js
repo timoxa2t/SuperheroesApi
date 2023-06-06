@@ -57,9 +57,6 @@ async function create(superhero) {
 }
 
 async function remove(id) {
-  await Superhero.destroy({
-    where: { id }
-  });
 
   await Image.destroy({
     where: { 
@@ -67,10 +64,14 @@ async function remove(id) {
      }
   });
 
-  return await Superpower.destroy({
+  await Superpower.destroy({
     where: { 
       superheroId: id,
      }
+  });
+
+  return await Superhero.destroy({
+    where: { id }
   });
 }
 

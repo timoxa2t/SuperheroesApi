@@ -48,11 +48,6 @@ async function getDetais(id) {
 async function create(superhero) {
   const newSuperhero = await Superhero.create(superhero);
 
-  await Image.create({
-    superheroId: newSuperhero.id,
-    url: superhero.image
-  });
-
   return newSuperhero;
 }
 
